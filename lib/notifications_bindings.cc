@@ -26,14 +26,14 @@ NAN_METHOD(RegisterAppForNotificationSupport)
 	Local<String> shortcutHandle = Nan::To<String>(info[0]).ToLocalChecked();
 	Local<String> appIdHandle = Nan::To<String>(info[1]).ToLocalChecked();
 
-	String::Value shortcutStringValue(shortcutHandle);
-	String::Value appIdStringValue(appIdHandle);
+	v8::Local<v8::String> shortcutStringValue(shortcutHandle);
+	v8::Local<v8::String> appIdStringValue(appIdHandle);
 
 	HRESULT hr = InteractiveNotifications::RegisterAppForNotificationSupport((PCWSTR)*shortcutStringValue, (PCWSTR)*appIdStringValue);
 
 	if (hr != S_OK)
 	{
-		Nan::ThrowError(String::Concat(Nan::New<String>("RegisterAppForNotificationsSupport Failed with error code:").ToLocalChecked(),
+		Nan::ThrowError(String::Concat(NULL,Nan::New<String>("RegisterAppForNotificationsSupport Failed with error code:").ToLocalChecked(),
 			Nan::To<String>(Nan::New<Integer>(static_cast<int>(hr))).ToLocalChecked()));
 		return;
 	}
